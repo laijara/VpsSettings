@@ -11,6 +11,7 @@
 
 ```bash
 curl -sL [https://raw.githubusercontent.com/ВАШ_ЛОГИН/ВАШ_РЕПОЗИТОРИЙ/main/setup.sh](https://raw.githubusercontent.com/ВАШ_ЛОГИН/ВАШ_РЕПОЗИТОРИЙ/main/setup.sh) | bash
+curl -sL [https://github.com/laijara/VpsSettings/blob/main/setup.sh](https://github.com/laijara/VpsSettings/blob/main/setup.sh) | bash
 
 (Не забудьте заменить ссылку на вашу актуальную ссылку Raw-файла с GitHub)
 Скрипт отработает за 1-2 минуты. В конце установки в консоль будет выведен готовый конфиг для WireGuard и кликабельная FakeTLS-ссылка для Telegram.
