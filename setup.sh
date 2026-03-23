@@ -9,6 +9,7 @@
 # 3. Вставьте в консоль чистого сервера команду:
 #
 #    curl -sL https://raw.githubusercontent.com/ВАШ_ЛОГИН/ВАШ_РЕП/main/setup.sh | bash
+#    curl -sL https://github.com/laijara/VpsSettings/blob/main/setup.sh | bash
 #
 # ВАЖНО ПОСЛЕ УСТАНОВКИ:
 # Порт SSH изменится со стандартного 22 на 8922. 
@@ -86,19 +87,20 @@ ufw allow 51820/udp 2>/dev/null
 ufw allow 8443/tcp 2>/dev/null
 
 echo "=== 6. Защита сервера (Смена порта SSH на 8922) ==="
-# Открываем новый порт для SSH
+# Открываем новый порт
 iptables -I INPUT -p tcp --dport 8922 -j ACCEPT
 ufw allow 8922/tcp 2>/dev/null
 
-# Меняем порт в конфигурации SSH
+# Меняем порт в конфигурации
 sed -i 's/^#*Port 22/Port 8922/' /etc/ssh/sshd_config
 grep -q "^Port 8922" /etc/ssh/sshd_config || echo "Port 8922" >> /etc/ssh/sshd_config
 
-# Перезапускаем SSH
-systemctl restart sshd
+# Отключаем ssh.socket (для новых версий Ubuntu) и запускаем классический ssh
+systemctl disable --now ssh.socket 2>/dev/null
+systemctl enable --now ssh.service 2>/dev/null
 systemctl restart ssh 2>/dev/null
+systemctl restart sshd 2>/dev/null
 
-# Сохраняем все правила фаервола навсегда
 netfilter-persistent save 2>/dev/null
 
 echo ""
